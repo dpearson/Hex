@@ -22,29 +22,26 @@ public class Panel extends JPanel {
 	private final Color[] colors={Color.GRAY, Color.WHITE, Color.BLACK};
 
 	private int turn=1;
+	private AI ai;
 
 	/**
 	 * Default constructor for the view.
 	 */
 	public Panel() {
 		board=new int[7][7];
-		board[1][1]=1;
-		board[6][4]=2;
 
 		squares=new Polygon[7][7];
+
+		ai=new DecentAI();
 
 		image=new BufferedImage(400, 500, BufferedImage.TYPE_INT_RGB);
 		graph=image.getGraphics();
 		graph.setColor(new Color(210, 180, 140));
 		graph.fillRect(0, 0, 400, 500);
 
-		for (int y=0; y<7; y++) {
-			for (int x=0; x<7; x++) {
-				graph.setColor(getColor(x, y));
-				squares[y][x]=drawHex(25.0, x*42+70, y*47+178-(23*x));
-				graph.fillPolygon(squares[y][x]);
-			}
-		}
+		Location loc=ai.getPlayLocation(board, new Location(-1, -1));
+		drawBoard();
+		playAt(loc.x, loc.y);
 
 		addMouseListener(new Mouse());
 	}
@@ -180,16 +177,33 @@ public class Panel extends JPanel {
 	}
 
 	private void playAt(int x, int y) {
+		if (!isLegalPlay(x, y)) {
+			System.out.println("Not valid!");
+			return;
+		}
+
 		board[y][x]=turn;
-		checkWin(turn);
+		drawBoard();
+
+		if (checkWin(turn)) {
+			System.out.println("Player "+turn+" wins!");
+			return;
+		}
 
 		if (turn==2) {
 			turn--;
+
+			Location loc=ai.getPlayLocation(board, new Location(x, y));
+			drawBoard();
+			playAt(loc.x, loc.y);
 		} else {
 			turn++;
+			drawBoard();
 		}
+	}
 
-		drawBoard();
+	private boolean isLegalPlay(int x, int y) {
+		return board[y][x]==0;
 	}
 
 	private class Mouse extends MouseAdapter {
