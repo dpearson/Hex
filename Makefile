@@ -1,4 +1,4 @@
-CLASSES=AI.java DecentAI.java Location.java Main.java Panel.java RandomAI.java
+CLASSES=AI.java DecentAI.java Location.java Main.java Panel.java RandomAI.java Bridge.java BestAI.java TreeNode.java MCAI.java Utils.java Board.java
 
 .SUFFIXES: .java .class
 
