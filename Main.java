@@ -1,5 +1,5 @@
-/*
- * Copyright 2012 David Pearson. BSD License.
+/* Copyright 2012 David Pearson.
+ * BSD License
  */
 
 import javax.swing.JFrame;
@@ -7,11 +7,12 @@ import javax.swing.JFrame;
 /**
  * Runs the application.
  *
- * @author David
+ * @author David Pearson
  */
 public class Main {
 	/**
 	 * Main method. Creates a window.
+	 *
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {

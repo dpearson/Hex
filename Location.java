@@ -1,14 +1,34 @@
+/* Copyright 2012 David Pearson.
+ * BSD License.
+ */
+
 import java.util.ArrayList;
 
+/**
+ * Represents a location on a standard Hex board.
+ *
+ * @author David Pearson
+ */
 public class Location {
 	public int x;
 	public int y;
 
+	/**
+	 * Creates a new Location object with the supplied coordinates.
+	 *
+	 * @param x1 the new Location's x coordinate
+	 * @param y1 the new Location's y coordinate
+	 */
 	public Location(int x1, int y1) {
 		x=x1;
 		y=y1;
 	}
 
+	/**
+	 * Gets Locations that share an edge with this Location.
+	 *
+	 * @return An ArrayList of Locations that are adjacent
+	 */
 	public ArrayList<Location> getAdjacentLocations() {
 		ArrayList<Location> l=new ArrayList<Location>();
 
@@ -39,6 +59,11 @@ public class Location {
 		return l;
 	}
 
+	/**
+	 * Gets Bridges that include this Location as an end Location.
+	 *
+	 * @return An ArrayList of Bridges that are adjacent
+	 */
 	public ArrayList<Bridge> getBridges() {
 		ArrayList<Bridge> bridges=new ArrayList<Bridge>();
 
@@ -81,14 +106,22 @@ public class Location {
 		return bridges;
 	}
 
-	public int distanceFrom(Location l) {
-		return (int)Math.sqrt(Math.pow(l.x-x, 2)+Math.pow(l.y-y, 2));
-	}
-
+	/**
+	 * Compares this Location and another for equality.
+	 *
+	 * @param l The Location to compare to
+	 *
+	 * @return true if the two have the same coordinates, else false
+	 */
 	public boolean equals(Location l) {
 		return (x==l.x && y==l.y);
 	}
 
+	/**
+	 * Gets a String representation of this Location.
+	 *
+	 * @return A String describing this Location
+	 */
 	public String toString() {
 		return "("+x+", "+y+")";
 	}
