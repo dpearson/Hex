@@ -258,11 +258,10 @@ public class MCAI extends AI {
 	 *
 	 * @param board The board state used in determining the play location
 	 * @param last The last play in the game, as made by the opponent
-	 * @param depth The depth for look-ahead
 	 *
 	 * @return A location to play at, chosen using MCTS
 	 */
-	public Location getPlayLocation(int[][] board, Location last, int depth) {
+	public Location getPlayLocation(int[][] board, Location last) {
 		long t=System.currentTimeMillis();
 
 		// TODO: If a bridge has had a piece played in it, play so as to hold it.

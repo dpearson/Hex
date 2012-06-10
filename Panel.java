@@ -42,7 +42,7 @@ public class Panel extends JPanel {
 		drawBoard();
 
 		if (turn==ai.getPlayerCode()) {
-			Location loc=ai.getPlayLocation(board, new Location(-1, -1), 0);
+			Location loc=ai.getPlayLocation(board, new Location(-1, -1));
 			playAt(loc.x, loc.y);
 		}
 
@@ -139,7 +139,7 @@ public class Panel extends JPanel {
 		}
 
 		if (turn==ai.getPlayerCode()) {
-			Location loc=ai.getPlayLocation(board, new Location(x, y), 0);
+			Location loc=ai.getPlayLocation(board, new Location(x, y));
 			playAt(loc.x, loc.y);
 		}
 	}
