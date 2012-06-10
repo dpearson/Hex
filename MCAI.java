@@ -217,6 +217,15 @@ public class MCAI extends AI {
 		return ((double)winCount)/50.0;
 	}
 
+	/**
+	 * Builds a tree of possible plays.
+	 *
+	 * @param parent The node above the nodes to be created in the tree, or null
+	 * @param board The board state to be used to find open spaces
+	 * @param depth The depth at which to stop searching for plays
+	 *
+	 * @return An ArrayList of nodes representing possible plays
+	 */
 	private ArrayList<TreeNode> buildTree(TreeNode parent, int[][] board, int depth) {
 		ArrayList<TreeNode> nodes=new ArrayList<TreeNode>();
 
@@ -244,6 +253,15 @@ public class MCAI extends AI {
 		return nodes;
 	}
 
+	/**
+	 * Chooses a location for the next play by this AI.
+	 *
+	 * @param board The board state used in determining the play location
+	 * @param last The last play in the game, as made by the opponent
+	 * @param depth The depth for look-ahead
+	 *
+	 * @return A location to play at, chosen using MCTS
+	 */
 	public Location getPlayLocation(int[][] board, Location last, int depth) {
 		long t=System.currentTimeMillis();
 
