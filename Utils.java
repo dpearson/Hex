@@ -17,7 +17,7 @@ public class Utils {
 	 * @param visited The ArrayList of Locations to check
 	 * @param l The Location to check for
 	 *
-	 * @returns the existance of the Location in the ArrayList
+	 * @return the existance of the Location in the ArrayList
 	 */
 	public static boolean ALContains(ArrayList<Location> visited, Location l) {
 		for (int i=0; i<visited.size(); i++) {

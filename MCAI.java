@@ -1,19 +1,53 @@
+/* Copyright 2012 David Pearson.
+ * BSD License.
+ */
 import java.util.ArrayList;
 
+/**
+ * An AI that uses Monte Carlo Tree Search to play Hex.
+ *
+ * @author David Pearson
+ */
 public class MCAI extends AI {
 	private int aiplayer=1;
 	private int minLen=49;
 	private Location lastPlayed;
 
+	/**
+	 * The default constructor.
+	 * Assumes that the player is 1.
+	 */
 	public MCAI() {}
+
+	/**
+	 * Creates a new instance of MCAI.
+	 *
+	 * @param player The color to play as (see Constants.java)
+	 */
 	public MCAI(int player) {
 		aiplayer=player;
 	}
 
+	/**
+	 * Gets the color this AI is playing as.
+	 *
+	 * @return The color that the AI is playing as (see Constants.java)
+	 */
 	public int getPlayerCode() {
 		return aiplayer;
 	}
 
+	/**
+	 * Calculates the n-completion value for a given board.
+	 *
+	 * @param board The board to calculate for
+	 * @param player The player to calculate for
+	 * @param l The current visited Location on the board
+	 * @param visited An ArrayList of Locations already visited
+	 * @param count The number of spaces visted already
+	 *
+	 * @return The n-completion value for a path between l and the edge
+	 */
 	private int calcN(int[][] board, int player, Location l, ArrayList<Location> visited, int count) {
 		if (count<minLen && ((player==1 && l.y==6) || (player==2 && l.x==6))) {
 			minLen=count;
@@ -72,6 +106,14 @@ public class MCAI extends AI {
 		return min;
 	}
 
+	/**
+	 * Calculates the n-completion value for a game board state.
+	 * 	This is (more or less) a nice wrapper around calcN.
+	 *
+	 * @param board The board to calculate based on
+	 *
+	 * @return The n-completion value for the board state provided
+	 */
 	private double calcVal(int[][] board) {
 		int opp=1;
 		if (aiplayer==1) {
@@ -121,6 +163,13 @@ public class MCAI extends AI {
 		return maxno;
 	}
 
+	/**
+	 * Plays a random game, filling the rest of the board (which doesn't change the outcome).
+	 *
+	 * @param board The board state to start with
+	 *
+	 * @return true if this.aiplayer was the winning color
+	 */
 	private boolean playRandomGame(int[][] board) {
 		int[][] b=Board.BoardCopy(board);
 
@@ -150,15 +199,22 @@ public class MCAI extends AI {
 		return calcVal(b)>Math.pow(board.length, 2);
 	}
 
+	/**
+	 * Calculates the winning percentage for a given board state.
+	 *
+	 * @param board The current board state to finish
+	 *
+	 * @return The percentage, as a decimal, of random games won
+	 */
 	private double calcWinPercent(int[][] board) {
 		int winCount=0;
-		for (int i=0; i<100; i++) {
+		for (int i=0; i<50; i++) {
 			if (playRandomGame(board)) {
 				winCount++;
 			}
 		}
 
-		return ((double)winCount)/100.0;
+		return ((double)winCount)/50.0;
 	}
 
 	private ArrayList<TreeNode> buildTree(TreeNode parent, int[][] board, int depth) {
@@ -191,7 +247,7 @@ public class MCAI extends AI {
 	public Location getPlayLocation(int[][] board, Location last, int depth) {
 		long t=System.currentTimeMillis();
 
-		// If a bridge has had a piece played in it, play so as to hold it.
+		// TODO: If a bridge has had a piece played in it, play so as to hold it.
 		lastPlayed=last;
 		ArrayList<TreeNode> tree=buildTree(null, board, 1);
 
