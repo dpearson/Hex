@@ -10,8 +10,10 @@ all: classes
 classes: $(CLASSES:.java=.class)
 
 jar: classes
-	jar cvfm Hex.jar MANIFEST.MF *.class
+	jar cvfm Hex.jar MANIFEST.MF $(CLASSES:.java=.class)
 
+docs:
+	javadoc -d javadoc $(CLASSES)
 clean:
-	rm *.class
+	rm $(CLASSES:.java=.class)
 	rm Hex.jar
