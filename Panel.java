@@ -32,7 +32,15 @@ public class Panel extends JPanel {
 
 		squares=new Polygon[7][7];
 
-		ai=new MCAI(1);
+		String[] opts={"Black", "White"};
+		int colour=JOptionPane.showOptionDialog(null, "Which colour would you like to play as?", "Choose Colour", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
+
+		int opp=1;
+		if (colour!=JOptionPane.CLOSED_OPTION) {
+			opp=colour+1;
+		}
+
+		ai=new MCAI(opp);
 
 		image=new BufferedImage(400, 500, BufferedImage.TYPE_INT_RGB);
 		graph=image.getGraphics();
