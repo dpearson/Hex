@@ -3,6 +3,7 @@
  */
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  * An AI that uses Monte Carlo Tree Search to play Hex.
@@ -13,6 +14,7 @@ public class MCAI extends AI {
 	private int aiplayer=1;
 	private int minLen=49;
 	private Location lastPlayed;
+	public int diffLevel=75;
 
 	/**
 	 * The default constructor.
@@ -115,7 +117,7 @@ public class MCAI extends AI {
 	 *
 	 * @return The n-completion value for the board state provided
 	 */
-	private double calcVal(int[][] board) {
+	public double calcVal(int[][] board) {
 		int opp=1;
 		if (aiplayer==1) {
 			opp=2;
@@ -148,15 +150,8 @@ public class MCAI extends AI {
 				double no=(double)calcN(board, opp, oLoc, new ArrayList<Location>(), initCountO);
 				minLen=49;
 
-				double np=(double)calcN(board, aiplayer, pLoc, new ArrayList<Location>(), initCountP);
-				minLen=49;
-
 				if (no<maxno) {
 					maxno=no;
-				}
-
-				if (np<minnp) {
-					minnp=np;
 				}
 			}
 		}
@@ -209,13 +204,13 @@ public class MCAI extends AI {
 	 */
 	private double calcWinPercent(int[][] board) {
 		int winCount=0;
-		for (int i=0; i<150; i++) {
+		for (int i=0; i<diffLevel; i++) {
 			if (playRandomGame(board)) {
 				winCount++;
 			}
 		}
 
-		return ((double)winCount)/150.0;
+		return ((double)winCount)/((double)diffLevel);
 	}
 
 	/**

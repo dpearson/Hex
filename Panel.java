@@ -16,12 +16,13 @@ public class Panel extends JPanel {
 	private Graphics graph;
 	private BufferedImage image;
 
-	private int[][] board; 
+	private int[][] board;
 	private Polygon[][] squares;
 
 	private final Color[] colors={Color.GRAY, Color.WHITE, Color.BLACK};
 
 	private int turn=1;
+	private int colour=1;
 	private AI ai;
 
 	/**
@@ -33,14 +34,23 @@ public class Panel extends JPanel {
 		squares=new Polygon[7][7];
 
 		String[] opts={"Black", "White"};
-		int colour=JOptionPane.showOptionDialog(null, "Which colour would you like to play as?", "Choose Colour", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
+		colour=JOptionPane.showOptionDialog(null, "Which colour would you like to play as?", "Choose Colour", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
 
 		int opp=1;
 		if (colour!=JOptionPane.CLOSED_OPTION) {
 			opp=colour+1;
+		} else {
+			colour=2;
 		}
 
 		ai=new MCAI(opp);
+
+		Object[] options={25, 50, 75, 100, 150};
+		Integer level=(Integer)JOptionPane.showInputDialog(null, "Choose a difficulty level:", "Choose Difficulty", JOptionPane.PLAIN_MESSAGE, null, options, 75);
+
+		if (level!=null) {
+			((MCAI)ai).diffLevel=level.intValue();
+		}
 
 		image=new BufferedImage(400, 500, BufferedImage.TYPE_INT_RGB);
 		graph=image.getGraphics();
@@ -126,17 +136,22 @@ public class Panel extends JPanel {
 	 */
 	private void playAt(int x, int y) {
 		if (!isLegalPlay(x, y)) {
-			System.out.println("Not valid!");
+			JOptionPane.showMessageDialog(null, "You can't make that move!", "Invalid move!", JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
 
 		board[y][x]=turn;
 		drawBoard();
 
-		/*if (checkWin(turn)) {
-			System.out.println("Player "+turn+" wins!");
+		if (((MCAI)ai).calcVal(board)>Math.pow(board.length, 2)) {
+			JOptionPane.showMessageDialog(null, "The computer won. You didn't.", "Victory!", JOptionPane.PLAIN_MESSAGE);
+			turn=-1;
 			return;
-		}*/
+		} else if (new MCAI(colour).calcVal(board)>Math.pow(board.length, 2)) {
+			JOptionPane.showMessageDialog(null, "You won.", "Victory!", JOptionPane.PLAIN_MESSAGE);
+			turn=-1;
+			return;
+		}
 
 		if (turn==2) {
 			turn--;
@@ -176,6 +191,10 @@ public class Panel extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			int eX=e.getX();
 			int eY=e.getY();
+
+			if (turn==ai.getPlayerCode() && turn>0) {
+				return;
+			}
 
 			for (int y=0; y<squares.length; y++) {
 				for (int x=0; x<squares[y].length; x++) {
