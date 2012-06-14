@@ -5,15 +5,15 @@ CLASSES=AI.java Location.java Bridge.java Main.java Panel.java TreeNode.java MCA
 .java.class:
 	javac $*.java
 
-all: classes
+all: classes jar docs
 
 classes: $(CLASSES:.java=.class)
 
 jar: classes
-	jar cvfm Hex.jar MANIFEST.MF $(CLASSES:.java=.class)
+	jar cvfm Hex.jar MANIFEST.MF *.class
 
 docs:
 	javadoc -d javadoc $(CLASSES)
 clean:
-	rm $(CLASSES:.java=.class)
+	rm *.class
 	rm Hex.jar
