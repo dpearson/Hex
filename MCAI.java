@@ -1,6 +1,7 @@
 /* Copyright 2012 David Pearson.
  * BSD License.
  */
+
 import java.util.ArrayList;
 
 /**
@@ -208,13 +209,13 @@ public class MCAI extends AI {
 	 */
 	private double calcWinPercent(int[][] board) {
 		int winCount=0;
-		for (int i=0; i<50; i++) {
+		for (int i=0; i<150; i++) {
 			if (playRandomGame(board)) {
 				winCount++;
 			}
 		}
 
-		return ((double)winCount)/50.0;
+		return ((double)winCount)/150.0;
 	}
 
 	/**
