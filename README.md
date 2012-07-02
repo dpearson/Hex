@@ -8,7 +8,6 @@ You'll need a few dependencies; these include a JDK, `make`, and `zip`. I've onl
 
 Then, just run:
 
-	```shell
     make jar
     java -jar Hex.jar
 
