@@ -7,6 +7,7 @@ This is an implementation of Hex in Java. It was originally used as a school pro
 You'll need a few dependencies; these include a JDK, `make`, and `zip`. I've only tested the code on Java 6, although both the OpenJDK and the Sun one work.
 
 Then, just run:
+
 	```shell
     make jar
     java -jar Hex.jar
